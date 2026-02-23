@@ -1,2 +1,7 @@
 node_modules
 .DS_Store
+
+# Ignore compiled TypeScript output and compiled JS alongside sources
+dist/
+src/**/*.js
+src/**/*.js.map
