@@ -79,4 +79,29 @@ Feature: Calculate Holiday Entitlement on the government website
         And I click the "Continue" button
         Then I should be taken to the results page
         And I should see the title "Information based on your answers"
-        And I should see "The statutory holiday entitlement is 28 days holiday."
+        And I should see the statutory holiday entitlement with 28 days
+
+    Scenario: User can start again part way through the process
+        Given I am on the "Calculate holiday entitlement" page
+        When I click the "Start now" button
+        And I select "Yes" for the question "Does the employee work irregular hours or for part of the year?"
+        And I click the "Continue" button
+        And I enter "1" into the day field
+        And I enter "1" into the month field
+        And I enter "2023" into the year field
+        And I click the "Continue" button
+        And I select "days worked per week" for the question "Is the holiday entitlement based on:"
+        And I click the "Continue" button
+        And I click the "Start again" link
+        Then I should be taken back to the first page of the calculation process
+        And I should see the title "Calculate holiday entitlement"
+        And I should see the "Start now" button
+
+    Scenario: User can change their answer to the first question
+        Given I am on the "When does the leave year start?" question page
+        When I click the "Change" link for the first question
+        Then I should be taken back to the first question
+        And I should see the question "Does the employee work irregular hours or for part of the year?"
+        And I should see the options "Yes" and "No"
+        And the "Yes" option should be selected
+        And I should see the "Continue" button

@@ -1,6 +1,23 @@
 import { BasePage } from './base-page';
 
 export class QuestionPage extends BasePage {
+  // Map option text to selector keys for easy maintenance
+  private readonly optionSelectorMap: Record<string, keyof typeof this.elements> = {
+    'Yes': 'yesOption',
+    'No': 'noOption',
+    'days worked per week': 'daysWorkedOption',
+    'hours worked per week': 'hoursWorkedOption',
+    'annualised hours': 'annualisedHoursOption',
+    'compressed hours': 'compressedHoursOption',
+    'shifts': 'shiftsOption',
+    'for a full leave year': 'fullLeaveYearOption',
+  };
+
+  private readonly optionVerificationMap: Record<string, keyof typeof this.elements> = {
+    'Yes': 'yesInput',
+    'No': 'noInput',
+  };
+
   get elements() {
     return {
       questionText: 'h1',
@@ -26,38 +43,19 @@ export class QuestionPage extends BasePage {
       // Generic input fields
       textInput: 'input[type="text"]',
       numberInput: 'input[type="number"]',
+      // Inputs for verification
+      yesInput: 'input[id="response-0"]',
+      noInput: 'input[id="response-1"]',
     };
   }
 
   async selectOption(option: string): Promise<void> {
-    switch (option) {
-      case 'Yes':
-        await this.page.click(this.elements.yesOption);
-        break;
-      case 'No':
-        await this.page.click(this.elements.noOption);
-        break;
-      case 'days worked per week':
-        await this.page.click(this.elements.daysWorkedOption);
-        break;
-      case 'hours worked per week':
-        await this.page.click(this.elements.hoursWorkedOption);
-        break;
-      case 'annualised hours':
-        await this.page.click(this.elements.annualisedHoursOption);
-        break;
-      case 'compressed hours':
-        await this.page.click(this.elements.compressedHoursOption);
-        break;
-      case 'shifts':
-        await this.page.click(this.elements.shiftsOption);
-        break;
-      case 'for a full leave year':
-        await this.page.click(this.elements.fullLeaveYearOption);
-        break;
-      default:
-        throw new Error(`Unknown option: ${option}`);
+    const selectorKey = this.optionSelectorMap[option];
+    if (!selectorKey) {
+      throw new Error(`Unknown option: ${option}`);
     }
+    const selector = this.elements[selectorKey];
+    await this.page.click(selector);
   }
 
   async clickContinue(): Promise<void> {
@@ -92,21 +90,30 @@ export class QuestionPage extends BasePage {
   }
 
   async verifyDateFields(): Promise<void> {
-    await this.expect(this.page.locator(this.elements.dayField)).toBeVisible();
-    await this.expect(this.page.locator(this.elements.monthField)).toBeVisible();
-    await this.expect(this.page.locator(this.elements.yearField)).toBeVisible();
+    await this.verifyElementsVisible([this.elements.dayField, this.elements.monthField, this.elements.yearField]);
+  }
+
+  private async verifyElementsVisible(selectors: string[]): Promise<void> {
+    for (const selector of selectors) {
+      await this.expect(this.page.locator(selector)).toBeVisible();
+    }
+  }
+
+  async enterDateField(fieldType: 'day' | 'month' | 'year', value: string): Promise<void> {
+    const fieldKey = `${fieldType}Field` as const;
+    await this.page.fill(this.elements[fieldKey], value);
   }
 
   async enterDay(day: string): Promise<void> {
-    await this.page.fill(this.elements.dayField, day);
+    await this.enterDateField('day', day);
   }
 
   async enterMonth(month: string): Promise<void> {
-    await this.page.fill(this.elements.monthField, month);
+    await this.enterDateField('month', month);
   }
 
   async enterYear(year: string): Promise<void> {
-    await this.page.fill(this.elements.yearField, year);
+    await this.enterDateField('year', year);
   }
 
   async verifyYourAnswersTitle(): Promise<void> {
@@ -120,5 +127,22 @@ export class QuestionPage extends BasePage {
   async enterGenericField(value: string): Promise<void> {
     const input = await this.page.locator(this.elements.numberInput + ', ' + this.elements.textInput).first();
     await input.fill(value);
+  }
+
+  async clickStartAgain(): Promise<void> {
+    await this.page.click(this.elements.startAgainLink);
+  }
+
+  async clickChangeLink(): Promise<void> {
+    await this.page.click(this.elements.changeLink);
+  }
+
+  async verifyOptionSelected(option: string): Promise<void> {
+    const selectorKey = this.optionVerificationMap[option];
+    if (!selectorKey) {
+      throw new Error(`Cannot verify selection for option: ${option}`);
+    }
+    const selector = this.elements[selectorKey];
+    await this.expect(this.page.locator(selector)).toBeChecked();
   }
 }
