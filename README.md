@@ -5,20 +5,10 @@ Your task is to create a functional automated UI test suite using JavaScript, Ty
 ## 📝 The Task - Part 1
 
 On a public facing UK Government webpage 'Calculate your holiday entitlement', please write a working automated UI test suite. ✅ 
-   -> I have created a suite of 9 tests that verify a selection of behaviours/features that are present throughout the site.  I would continue to build on this in order to cover all customer journeys, plus error scenarios and edge cases.
+   -> I have created a suite of 12 tests that verify a selection of behaviours/features that are present throughout the site.  I would continue to build on this in order to cover all customer journeys, plus error scenarios and edge cases.
 
 If the language/framework you decide to use supports BDD/Gherkin, you have the choice to use this or not. Though its usage is optional and therefore won't impact scoring. ✅ 
    -> I have not written Playwright tests using feature files before so I was curious to give it a try ...I like it 😀
-
-
-
-## 🎢 The Task - Part 2 (bonus task)
-
-At Solirius, we prioritise Accessibility. While we understand that not everyone may meet our understanding of the subject, we are eager to gauge your knowledge and awareness in this area.
-
-Task two is to launch the basic web page we have created 'index.html' and provide us with a list of Accessibility issues/bugs you can find.
-
-You can provide your list of answers anywhere you like, but tell us where you have put them. (e.g. within you README.md). Finally please provide at least one of them in the format of a Bug report. (doesn't have to be more then 1 in this format, the others can just be a quick list).
 
 ## 🚀 Running the Tests
 
@@ -36,29 +26,39 @@ To build and run the automated test suite:
 
 The tests will execute and display results in the terminal.
 
-#### Page Launch Instructions
+## 🎢 The Task - Part 2 (bonus task)
 
-To launch the page locally, follow these simple steps:
+Task two is to launch the basic web page we have created 'index.html' and provide us with a list of Accessibility issues/bugs you can find.
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Start the application:
-   ```bash
-   npm start
-   ```
-3. Open your web browser and navigate to:
-   ```bash
-   http://localhost:8080/
-   ```
+You can provide your list of answers anywhere you like, but tell us where you have put them. (e.g. within you README.md). Finally please provide at least one of them in the format of a Bug report. (doesn't have to be more then 1 in this format, the others can just be a quick list).
 
-## 🕗 Time Allocation
+-> Issues
 
-There's no strict time limit for completing this task before the specified deadline given, we don't expect an extensive number of tests, but a well-rounded selection is appreciated.
+General issues:
+Testing using MacOS Screenreader
+1. "Accessibility" spelt incorrectly.
+2. Page heading description is unclear/confusing: "Heading level 2 Accesibility Chat Robot, 3 Items"
+3. In safari - attempt to use "Reader mode" displays nothing.
+4. 'Robot' image is unlabelled (file name only).
+   -> in bug report format:
 
-If you have the time and inclination, feel free to attempt Task 2 (bonus task), also provide any additional thoughts on your framework solution, with any further considerations you would take in to account if you had more time.
+Bug title/summary: Accessibility issue:'Robot' image is unlabelled
+Description:
+   Repro steps: 
+   1. Open the webpage in browser
+   2. activate screenreader, on mac 'cmd' + 'f5'
+   3. tab or 'ctrl' + 'option' + 'right/left arrow' to navigate to the image
 
-## 📨 Presenting/Submitting Your Solution
+   Result:
+   - voiceover reads "[filename], image" 
 
-Please download and email your solution from a private Github repository you have created and send the Zip back to us. Any issues please do get in touch with the recruiter you have been speaking with.
+   Expected:
+   - voiceover reads a meaningful image label/description, e.g. "image of large blue humanoid robot"
+
+Chrome Lighthouse accessibility audit:
+1. Image elements do not have [alt] attributes
+2. Document doesn't have a <title> element
+3. <html> element does not have a [lang] attribute
+4. Document does not have a main landmark.
+
+-> for a real website I would also test on mobile devices where screenreader use is more prevalent.
