@@ -90,14 +90,11 @@ export class QuestionPage extends BasePage {
   }
 
   async verifyDateFields(): Promise<void> {
-    await this.verifyElementsVisible([this.elements.dayField, this.elements.monthField, this.elements.yearField]);
+    // Call parent class method instead
+    await super.verifyElementsVisible([this.elements.dayField, this.elements.monthField, this.elements.yearField]);
   }
 
-  private async verifyElementsVisible(selectors: string[]): Promise<void> {
-    for (const selector of selectors) {
-      await this.expect(this.page.locator(selector)).toBeVisible();
-    }
-  }
+
 
   async enterDateField(fieldType: 'day' | 'month' | 'year', value: string): Promise<void> {
     const fieldKey = `${fieldType}Field` as const;
@@ -116,7 +113,8 @@ export class QuestionPage extends BasePage {
     await this.enterDateField('year', year);
   }
 
-  async verifyYourAnswersTitle(): Promise<void> {
+  async verifyYourAnswersSection(): Promise<void> {
+    // More accurately named: verify the answers section is visible
     await this.expect(this.page.locator(this.elements.yourAnswersSection)).toBeVisible();
   }
 
@@ -125,7 +123,15 @@ export class QuestionPage extends BasePage {
   }
 
   async enterGenericField(value: string): Promise<void> {
-    const input = await this.page.locator(this.elements.numberInput + ', ' + this.elements.textInput).first();
+    // Find first available input field - prefer number fields, fall back to text fields
+    let input = this.page.locator(this.elements.numberInput).first();
+    const inputCount = await input.count();
+    if (inputCount === 0) {
+      input = this.page.locator(this.elements.textInput).first();
+    }
+    if (await input.count() === 0) {
+      throw new Error('No input field found on the page');
+    }
     await input.fill(value);
   }
 

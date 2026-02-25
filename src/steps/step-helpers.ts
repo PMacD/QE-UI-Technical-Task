@@ -18,18 +18,27 @@ export class StepHelpers {
   };
 
   /**
-   * Navigate to a specific question page
+   * Configuration for navigating to specific questions via predefined paths
    */
-  static async navigateToDateQuestion(world: CustomWorld, questionTitle: string): Promise<void> {
-    if (questionTitle === 'When does the leave year start?') {
+  private static readonly QUESTION_NAVIGATION_PATHS: Record<string, (world: CustomWorld) => Promise<void>> = {
+    'When does the leave year start?': async (world) => {
       await world.pages.homePage.goto();
       await world.pages.homePage.clickStartNow();
       await world.pages.questionPage.selectOption('Yes');
       await world.pages.questionPage.clickContinue();
-      await world.pages.questionPage.verifyQuestion(questionTitle);
-    } else {
-      await world.pages.questionPage.verifyQuestion(questionTitle);
+    },
+  };
+
+  /**
+   * Navigate to a specific question page with extendable configuration
+   */
+  static async navigateToDateQuestion(world: CustomWorld, questionTitle: string): Promise<void> {
+    const navigationPath = this.QUESTION_NAVIGATION_PATHS[questionTitle];
+    if (navigationPath) {
+      await navigationPath(world);
     }
+    // Verify we've reached the question
+    await world.pages.questionPage.verifyQuestion(questionTitle);
   }
 
   /**

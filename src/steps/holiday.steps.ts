@@ -76,6 +76,7 @@ Then('I should see the question {string}', async function (this: CustomWorld, qu
   await this.pages.questionPage.verifyQuestion(question);
 });
 
+// Consolidated option verification - supports 2 options
 Then('I should see the options {string} and {string}', async function (this: CustomWorld, option1: string, option2: string) {
   await this.pages.questionPage.verifyOptions([option1, option2]);
 });
@@ -84,6 +85,7 @@ Then('I should see three fields to enter the date \\(day, month, year\\)', async
   await this.pages.questionPage.verifyDateFields();
 });
 
+// Consolidated option verification - supports 5 options
 Then('I should see the options {string} and {string} and {string} and {string} and {string}', async function (this: CustomWorld, opt1: string, opt2: string, opt3: string, opt4: string, opt5: string) {
   await this.pages.questionPage.verifyOptions([opt1, opt2, opt3, opt4, opt5]);
 });
@@ -94,7 +96,7 @@ Then('I should see the {string} link', async function (this: CustomWorld, linkTe
 
 Then('I should see the {string} section title', async function (this: CustomWorld, sectionTitle: string) {
   if (sectionTitle === 'Your answers') {
-    await this.pages.questionPage.verifyYourAnswersTitle();
+    await this.pages.questionPage.verifyYourAnswersSection();
   }
 });
 

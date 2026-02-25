@@ -11,8 +11,18 @@ export class BasePage {
     // Accept cookies if banner present
     try {
       await this.page.click('button:has-text("Accept additional cookies")', { timeout: 5000 });
-    } catch {
-      // Ignore if not present
+      console.log('Cookie banner accepted');
+    } catch (error) {
+      console.log('Cookie banner not found or already dismissed');
+    }
+  }
+
+  /**
+   * Verify that multiple elements are visible
+   */
+  async verifyElementsVisible(selectors: string[]): Promise<void> {
+    for (const selector of selectors) {
+      await expect(this.page.locator(selector)).toBeVisible();
     }
   }
 
