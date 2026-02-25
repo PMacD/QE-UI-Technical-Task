@@ -1,19 +1,16 @@
 # Solirius QE UI Technical Task
 
-Your task is to create a functional automated UI test suite using JavaScript, TypeScript, or a language of your choice. We would prefer you to use tools like Playwright or Cypress. However should you opt to use a different tool, such as Selenium with Java, we will inquire as to your reasoning's into why you did not opt for an alternative framework or language.
-
-There are no trick questions; we want to see your solution work, analyse your code structure, and understand your thought process.
+Your task is to create a functional automated UI test suite using JavaScript, TypeScript, or a language of your choice. We would prefer you to use tools like Playwright or Cypress. -> I have used VSCode to create a test suite in Playwright & Typescript along with Cucumber/BDD ("Cucumber (Gherkin) Full Support" VSCode extension).
 
 ## 📝 The Task - Part 1
 
-On a public facing UK Government webpage 'Calculate your holiday entitlement', please write a working automated UI test suite. If the language/framework you decide to use supports BDD/Gherkin, you have the choice to use this or not. Though its usage is optional and therefore won't impact scoring.
-An example feature file has been added to this repository should it be needed for reference.
+On a public facing UK Government webpage 'Calculate your holiday entitlement', please write a working automated UI test suite. ✅ 
+   -> I have created a suite of 9 tests that verify a selection of behaviours/features that are present throughout the site.  I would continue to build on this in order to cover all customer journeys, plus error scenarios and edge cases.
 
-You have autonomy on this task, the only remits are that you keep to the language and tools we have mentioned, that you provide a working solution and clear instructions on how to build and execute your solution.
+If the language/framework you decide to use supports BDD/Gherkin, you have the choice to use this or not. Though its usage is optional and therefore won't impact scoring. ✅ 
+   -> I have not written Playwright tests using feature files before so I was curious to give it a try ...I like it 😀
 
-We are looking for a demonstration of your technical skills, your ability to write a clear working solution that can be shared, and your 'tester mindset'.
 
-The URL for 'Calculate your holiday entitlement': https://www.gov.uk/calculate-your-holiday-entitlement
 
 ## 🎢 The Task - Part 2 (bonus task)
 
@@ -22,6 +19,22 @@ At Solirius, we prioritise Accessibility. While we understand that not everyone 
 Task two is to launch the basic web page we have created 'index.html' and provide us with a list of Accessibility issues/bugs you can find.
 
 You can provide your list of answers anywhere you like, but tell us where you have put them. (e.g. within you README.md). Finally please provide at least one of them in the format of a Bug report. (doesn't have to be more then 1 in this format, the others can just be a quick list).
+
+## 🚀 Running the Tests
+
+To build and run the automated test suite:
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Run the test suite:
+   ```bash
+   npm run test:feature
+   ```
+
+The tests will execute and display results in the terminal.
 
 #### Page Launch Instructions
 
