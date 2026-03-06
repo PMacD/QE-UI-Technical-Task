@@ -3,7 +3,8 @@ import { expect } from '@playwright/test';
 import { CustomWorld } from '../support/custom-world';
 import { StepHelpers } from './step-helpers';
 
-Given('I am on the {string} page', async function (this: CustomWorld, pageName: string) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Given('I am on the {string} page', async function (this: CustomWorld, _pageName: string) {
   await this.pages.homePage.goto();
 });
 
@@ -32,7 +33,8 @@ When('I click the {string} link', async function (this: CustomWorld, linkText: s
   await action(this);
 });
 
-When('I select {string} for the question {string}', async function (this: CustomWorld, option: string, question: string) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+When('I select {string} for the question {string}', async function (this: CustomWorld, option: string, _question: string) {
   await this.pages.questionPage.selectOption(option);
 });
 
@@ -48,7 +50,8 @@ When('I enter {string} into the year field', async function (this: CustomWorld, 
   await this.pages.questionPage.enterYear(year);
 });
 
-When('I enter {string} into the field for the question {string}', async function (this: CustomWorld, value: string, question: string) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+When('I enter {string} into the field for the question {string}', async function (this: CustomWorld, value: string, _question: string) {
   await this.pages.questionPage.enterGenericField(value);
 });
 
@@ -90,17 +93,19 @@ Then('I should see the options {string} and {string} and {string} and {string} a
   await this.pages.questionPage.verifyOptions([opt1, opt2, opt3, opt4, opt5]);
 });
 
-Then('I should see the {string} link', async function (this: CustomWorld, linkText: string) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('I should see the {string} link', async function (this: CustomWorld, _linkText: string) {
   await this.pages.questionPage.verifyStartAgainLink();
 });
 
-Then('I should see the {string} section title', async function (this: CustomWorld, sectionTitle: string) {
-  if (sectionTitle === 'Your answers') {
+Then('I should see the {string} section title', async function (this: CustomWorld, _sectionTitle: string) {
+  if (_sectionTitle === 'Your answers') {
     await this.pages.questionPage.verifyYourAnswersSection();
   }
 });
 
-Then('I should see the first question listed with the answer {string} and a {string} link', async function (this: CustomWorld, answer: string, linkText: string) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+Then('I should see the first question listed with the answer {string} and a {string} link', async function (this: CustomWorld, answer: string, _linkText: string) {
   await this.pages.questionPage.verifyYourAnswers(answer);
   await this.pages.questionPage.verifyChangeLink();
 });

@@ -1,21 +1,20 @@
 import { BasePage } from './base-page';
 
 export class QuestionPage extends BasePage {
+  // Consolidated Yes/No options with both selector and verification mappings
+  private readonly yesNoOptions = {
+    'Yes': { selector: 'yesOption' as const, verifySelector: 'yesInput' as const },
+    'No': { selector: 'noOption' as const, verifySelector: 'noInput' as const },
+  };
+
   // Map option text to selector keys for easy maintenance
   private readonly optionSelectorMap: Record<string, keyof typeof this.elements> = {
-    'Yes': 'yesOption',
-    'No': 'noOption',
     'days worked per week': 'daysWorkedOption',
     'hours worked per week': 'hoursWorkedOption',
     'annualised hours': 'annualisedHoursOption',
     'compressed hours': 'compressedHoursOption',
     'shifts': 'shiftsOption',
     'for a full leave year': 'fullLeaveYearOption',
-  };
-
-  private readonly optionVerificationMap: Record<string, keyof typeof this.elements> = {
-    'Yes': 'yesInput',
-    'No': 'noInput',
   };
 
   get elements() {
@@ -50,7 +49,8 @@ export class QuestionPage extends BasePage {
   }
 
   async selectOption(option: string): Promise<void> {
-    const selectorKey = this.optionSelectorMap[option];
+    const yesNoConfig = this.yesNoOptions[option as keyof typeof this.yesNoOptions];
+    const selectorKey = yesNoConfig?.selector || this.optionSelectorMap[option];
     if (!selectorKey) {
       throw new Error(`Unknown option: ${option}`);
     }
@@ -144,11 +144,11 @@ export class QuestionPage extends BasePage {
   }
 
   async verifyOptionSelected(option: string): Promise<void> {
-    const selectorKey = this.optionVerificationMap[option];
-    if (!selectorKey) {
+    const verifySelector = this.yesNoOptions[option as keyof typeof this.yesNoOptions]?.verifySelector;
+    if (!verifySelector) {
       throw new Error(`Cannot verify selection for option: ${option}`);
     }
-    const selector = this.elements[selectorKey];
+    const selector = this.elements[verifySelector];
     await this.expect(this.page.locator(selector)).toBeChecked();
   }
 }

@@ -11,7 +11,7 @@ export class HomePage extends BasePage {
     };
   }
 
-  async verifyPageLoaded(): Promise<void> {
+  async verifyLandingPageLoaded(): Promise<void> {
     await this.expect(this.page.locator(this.elements.title)).toBeVisible();
     await this.expect(this.page.locator(this.elements.startButton)).toBeVisible();
   }

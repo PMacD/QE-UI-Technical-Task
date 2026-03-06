@@ -12,7 +12,7 @@ export class BasePage {
     try {
       await this.page.click('button:has-text("Accept additional cookies")', { timeout: 5000 });
       console.log('Cookie banner accepted');
-    } catch (error) {
+    } catch (_error) { // eslint-disable-line @typescript-eslint/no-unused-vars
       console.log('Cookie banner not found or already dismissed');
     }
   }

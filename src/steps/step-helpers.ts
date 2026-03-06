@@ -46,7 +46,7 @@ export class StepHelpers {
    */
   static async verifyTitle(world: CustomWorld, title: string): Promise<void> {
     if (title === 'Calculate holiday entitlement') {
-      await world.pages.homePage.verifyPageLoaded();
+      await world.pages.homePage.verifyLandingPageLoaded();
     } else {
       await expect(world.page.locator('h1')).toContainText(title);
     }
@@ -57,7 +57,7 @@ export class StepHelpers {
    */
   static async verifyButton(world: CustomWorld, buttonText: string): Promise<void> {
     if (buttonText === 'Start now') {
-      await world.pages.homePage.verifyPageLoaded();
+      await world.pages.homePage.verifyLandingPageLoaded();
     } else if (buttonText === 'Continue') {
       await world.pages.questionPage.verifyContinueButton();
     }
